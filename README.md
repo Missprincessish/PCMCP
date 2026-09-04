@@ -2,6 +2,9 @@
 
 # PCMCP
 
+## Demo video
+https://youtu.be/Aj-g2MU_Sqk
+
 **Start on Mac. Continue on Windows. Send it back. Nothing gets lost.**
 
 PCMCP is a WebMCP-powered cross-platform task handoff demo. A browser exposes WebMCP tools that let an agent send and receive a neutral task capsule so the same task state can move between computers without remote-controlling the other machine.
