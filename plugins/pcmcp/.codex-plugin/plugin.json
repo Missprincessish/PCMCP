@@ -1,0 +1,20 @@
+{
+  "name": "pcmcp",
+  "version": "1.0.0",
+  "description": "PCMCP local bridge plugin.",
+  "author": {
+    "name": "Missprincessish"
+  },
+  "repository": "https://github.com/Missprincessish/PCMCP",
+  "license": "MIT",
+  "keywords": ["pcmcp", "mcp", "local", "bridge"],
+  "interface": {
+    "displayName": "PCMCP",
+    "shortDescription": "Local PCMCP bridge",
+    "longDescription": "PCMCP plugin wrapper for local bridge and future MCP-backed tools.",
+    "developerName": "Missprincessish",
+    "category": "Developer Tools",
+    "capabilities": ["Interactive", "Write"],
+    "defaultPrompt": ["Use PCMCP for local project and tool access"]
+  }
+}
