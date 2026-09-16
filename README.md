@@ -1,6 +1,9 @@
-<img width="512" height="279" alt="PCMCP logo" src="https://github.com/user-attachments/assets/712ad48c-ddf6-422b-ab1f-d522f1aa8c2c" />
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/46a77a06-cce8-4b0c-b13a-3c7477250b0f" />
+
 
 # PCMCP
+
+## STAY TUNED MORE COMING SOON!
 
 ## Demo video
 https://youtu.be/Aj-g2MU_Sqk
