@@ -1,0 +1,14 @@
+{
+  "$schema": "https://glama.ai/schemas/mcp-server-schema.json",
+  "name": "PCMCP Deterministic Bot Swarm",
+  "description": "Up to 100 deterministic, hash-logged, reversible file bots for your Mac, with a stdlib-only MCP server: status, fleet health meter (OK/WARN/STALLED/BROKEN with repair advice), plans, dry-run scan/execute, undo, owner-gated approve/real-execution/screenshot.",
+  "repository_url": "https://github.com/Missprincessish/PCMCP",
+  "homepage_url": "https://synomize.io",
+  "installations": [
+    {
+      "type": "stdio",
+      "command": "python3",
+      "args": ["-m", "pcmcp_swarm", "mcp"]
+    }
+  ]
+}
