@@ -7,7 +7,7 @@
 PCMCP is two things in one repo:
 
 1. **The original WebMCP cross-platform task handoff demo** (browser MCP tools hand a task capsule between machines).
-2. **The PCMCP Deterministic Bot Swarm** — up to 100 deterministic, hash-logged, reversible file bots, plus an iMessage text trigger so a phone can ask a Mac for status, screenshots and more.
+2. **PCMCP deterministic bots** — up to 100 deterministic, hash-logged, reversible file bots, plus an iMessage text trigger so a phone can ask a Mac for status, screenshots and more.
 
 ## What actually works (tested, no hand-waving)
 
