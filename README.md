@@ -55,6 +55,10 @@ Up to 100 bots: plain Python, no AI, no randomness. Every action is pre-approved
 - Code: [`pcmcp_swarm/`](pcmcp_swarm/) (Python standard library only, no `pip install`)
 - Selftest: `python3 -m pcmcp_swarm.selftest`
 
+## Built around Instinct
+
+PCMCP is built for the new texting agents. I use Instinct daily: it texts my Mac a command (over iMessage), the deterministic swarm does the work, and results come back to the chat, screenshot or file attached. The agent never gets a shell, never gets approve rights, and can only propose work for the owner to approve locally. The trigger parser is hardened so a command quoted inside a normal sentence is never executed, and reply delivery is verified against the Messages database instead of trusting AppleScript's word for it.
+
 ## WebMCP handoff demo (the original PCMCP)
 
 A browser exposes real `document.modelContext.registerTool(...)` WebMCP tools that let an agent send and receive a neutral task capsule, so the same task state can move between computers without remote-controlling the other machine.
@@ -68,3 +72,7 @@ Then open `http://localhost:4173` in your browser. (The live demo used a tempora
 ## License
 
 MIT
+
+---
+
+Built by **Angela Wilkinson** at **SynHumanity Labs** • [synomize.io](https://synomize.io)
