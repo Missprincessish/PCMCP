@@ -37,7 +37,7 @@ the test folder), with `/` between folders. `""` means the scope root itself.
 | `archives` | Same as placements, executed by the Archive lead (E). Archive = a metadata-only move into an archive folder. Nothing is zipped. |
 | `copies` | Destination → file ids to **copy** there (server-side copy; the original stays where `placements` says). Copies use Drive storage quota. |
 | `stay` | Files that stay exactly where they are. |
-| `tags` | Optional labels the never-move rules read: `synomize`, `synatoms`, `ash`, `synomize-3d`. |
+| `tags` | Optional labels the never-move rules read: `synomize`, `synatoms`, `personal-ai`, `synomize-3d`. |
 
 ## The validator (`drive plan validate`) refuses a plan if
 
@@ -50,7 +50,7 @@ the test folder), with `/` between folders. `""` means the scope root itself.
   is refused instead, because a skip can't keep it in place.
 - `NEVER_MOVE:legal-proof-locked`: anything inside `LEGAL PROOF - DO NOT TOUCH` would move out of it.
 - `NEVER_MOVE:<rule>`: a file's **final** folder (including files that ride along inside a moved folder) breaks a
-  rule in `folder-map.json`: Synomize/SynAtoms items into `Projects/VectorVerse`, ASH items into `PAC`.
+  rule in `folder-map.json`: Synomize/SynAtoms items into `Projects/VectorVerse`, personal-AI items into `PAC`.
   Rules match the plan's tags OR the file's name/current path. They can only refuse; they never choose a folder.
   The sub-bot checks again right before every move.
 - `UNDECLARED_FOLDER`, `DEST_NOT_IN_MAP`, `FOLDER_NOT_LISTED`: a destination or created folder is outside the map and
