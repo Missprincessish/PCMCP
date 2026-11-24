@@ -1,140 +1,69 @@
-<img width="1536" height="1024" alt="PCMCP" src="https://github.com/user-attachments/assets/46a77a06-cce8-4b0c-b13a-3c7477250b0f" />
+<img width="512" height="279" alt="PCMCP logo" src="https://github.com/user-attachments/assets/712ad48c-ddf6-422b-ab1f-d522f1aa8c2c" />
 
 # PCMCP
 
-**Start on Mac. Continue on Windows. Send it back. Nothing gets lost.**
+**Start on Mac. Continue anywhere. Send it back. Nothing gets lost.**
 
-PCMCP is a WebMCP-powered cross-platform task handoff demo. It moves a neutral task capsule between browsers/computers without remote-controlling the destination machine.
+PCMCP is two things in one repo:
 
-> **September 2026 update:** We just discovered that the README had been missing the single Cloudflare tunnel command required to reproduce the original two-computer demo. 😅 Sorry to everyone who cloned PCMCP and only found the localhost setup. The cross-computer handoff from the demo was real, and the current repo still supports it. The missing setup is documented below.
+1. **The original WebMCP cross-platform task handoff demo** (browser MCP tools hand a task capsule between machines).
+2. **The PCMCP Deterministic Bot Swarm** — up to 100 deterministic, hash-logged, reversible file bots, plus an iMessage text trigger so a phone can ask a Mac for status, screenshots and more.
 
-## Demo
+## What actually works (tested, no hand-waving)
 
-https://youtu.be/Aj-g2MU_Sqk
+| Feature | Status |
+|---|---|
+| WebMCP capsule handoff demo (`send_capsule` / `receive_capsule`) | works; run locally with `npm start` |
+| Swarm selftest (bots, registry, plans, approval, undo, crash-resume, doorbell, signed check-in) | 57/57 on macOS (arm64), Python 3.15 |
+| iMessage text trigger → screenshot, attached back to the chat as `.png` | verified live: attachment confirmed present in the Messages database, not just "sent" |
+| iMessage text trigger → screensaver start | verified live (bounded launch, honest failure reporting) |
+| Text trigger commands: `status`, `live`, `inventory`, `task`, `browse`, `run` | implemented and unit-tested |
+| Trigger parser: a command quoted inside a normal sentence is never executed | 10/10 unit tests; line-anchored full-match parsing |
+| Windows / Linux adapters | written, not yet run |
 
-The original demo shows a Mac sending the capsule to a Windows 10 PC and receiving it back.
+## The iMessage text trigger
 
-## What works today
+The Mac reads the Messages database read-only. A text from an allowed sender can do:
 
-- Live task-state handoff between two computers through one shared PCMCP server.
-- Mac → Windows → Mac round-trip demonstrated.
-- Destination edits appear back on the other computer in about a second under normal conditions.
-- Browser UI works without WebMCP for manual testing.
-- When WebMCP is available, PCMCP exposes:
-  - `send_capsule`
-  - `receive_capsule`
-- No remote desktop is involved.
+```text
+PCMCP-<secret> status                live swarm status
+PCMCP-<secret> live                  listener health: uptime, poll rate, active jobs, last acted command + age, free disk
+PCMCP-<secret> screensaver           start the Mac screensaver (reversible action; verified launch only)
+PCMCP-<secret> screenshot            screenshot of the screen, attached back as .png
+PCMCP-<secret> inventory drive        read-only Google Drive inventory (attached .txt listing)
+PCMCP-<secret> inventory icloud      look-only iCloud Drive listing (names, sizes, downloaded/cloud-only)
+PCMCP-<secret> inventory missing     compare iCloud with Documents and Downloads (read-only)
+PCMCP-<secret> task <name>           one named read-only task (attached .txt)
+PCMCP-<secret> browse <alias.index>  browse approved folders by numbered child directories
+PCMCP-<secret> run <plan-prefix>     start a plan the owner already signed with a passphrase
+```
 
-### Important scope note
+Safety rules that matter:
 
-PCMCP currently **transfers task state**. The platform selector labels the intended destination, but PCMCP does not itself execute programs or commands on the destination OS.
+- **The secret is a doorbell, not an approval.** There is no text command for approve.
+- One command per line: a command quoted inside a normal sentence is never executed.
+- The Mac stores only the SHA-256 of the secret; replies never contain it; each message acts at most once, only if new, incoming, from an allowed sender, inside the rate limit.
+- Nothing a text can reach writes, moves or deletes — except `run`, which executes only a plan signed with the owner passphrase, one shot per approval, never after her stop or a rollback.
 
-## One-computer quickstart
+See the docstring of `pcmcp_swarm/drive/trigger.py` for the full safety model.
 
-Requirements: Node.js.
+## Deterministic bot swarm
+
+Up to 100 bots: plain Python, no AI, no randomness. Every action is pre-approved by the owner, logged with SHA-256 hashes, and reversible (deletes and overwrites are staged, never destroyed). Doorbell + HMAC-signed instruction batches: the orchestrator can propose; only the local owner CLI can approve.
+
+- Docs: [SWARM_README.md](SWARM_README.md) • Data format: [SPEC.md](SPEC.md) • Task ledger: [SWARM_TASKS.md](SWARM_TASKS.md) • Drive plan format: [DRIVE_PLAN_SPEC.md](DRIVE_PLAN_SPEC.md)
+- Code: [`pcmcp_swarm/`](pcmcp_swarm/) (Python standard library only, no `pip install`)
+- Selftest: `python3 -m pcmcp_swarm.selftest`
+
+## WebMCP handoff demo (the original PCMCP)
+
+A browser exposes real `document.modelContext.registerTool(...)` WebMCP tools that let an agent send and receive a neutral task capsule, so the same task state can move between computers without remote-controlling the other machine.
 
 ```bash
-git clone https://github.com/Missprincessish/PCMCP.git
-cd PCMCP
 npm start
 ```
 
-Open:
-
-```text
-http://localhost:4173
-```
-
-## Two-computer setup
-
-This is the step that was accidentally missing from the README.
-
-### 1. Start PCMCP on the host computer
-
-```bash
-npm start
-```
-
-PCMCP listens on port `4173`.
-
-### 2. Create a Cloudflare Quick Tunnel
-
-With `cloudflared` installed:
-
-```bash
-cloudflared tunnel --url http://localhost:4173
-```
-
-Cloudflare will print a temporary `https://....trycloudflare.com` URL.
-
-### 3. Open PCMCP on both computers
-
-**Host computer:**
-
-```text
-http://localhost:4173
-```
-
-**Second computer:**
-
-Open the temporary `trycloudflare.com` URL produced above.
-
-Both browsers now connect to the same capsule. PCMCP polls for state changes roughly every 700 ms, so sending/updating the capsule on one computer appears on the other almost immediately.
-
-> Quick Tunnel URLs are ephemeral. The old URL previously listed here expired, which is why it no longer worked.
-
-## WebMCP
-
-PCMCP uses `document.modelContext.registerTool(...)` when the browser exposes WebMCP.
-
-In a WebMCP-enabled environment:
-
-- `send_capsule` sends the current task state.
-- `receive_capsule` retrieves the latest state.
-
-A normal browser can still use the PCMCP interface manually, but the WebMCP tools themselves require browser/runtime support for WebMCP.
-
-## Current architecture
-
-The demo intentionally stays tiny:
-
-```text
-Computer A browser
-        │
-        ▼
-PCMCP Node server
-        │
-        ▼
-Cloudflare tunnel
-        │
-        ▼
-Computer B browser
-```
-
-Both computers read and update the same capsule on the host server.
-
-## Current limitations
-
-This is still a prototype:
-
-- Capsule state is currently in memory and resets when the Node server restarts.
-- The current demo uses one shared capsule rather than isolated user sessions.
-- The demo server is not intended to be exposed as a production public relay.
-- PCMCP transports state; destination-side execution/orchestration belongs to higher-level tooling built around it.
-
-## If you cloned PCMCP before this update
-
-**You probably did not have broken code. You were missing an embarrassingly important line of documentation.** 😂
-
-Pull the latest README and use:
-
-```bash
-cloudflared tunnel --url http://localhost:4173
-```
-
-after `npm start`.
-
-If you already have the same code revision, you do not need to reclone just to reproduce the original two-computer handoff.
+Then open `http://localhost:4173` in your browser. (The live demo used a temporary Cloudflare tunnel; those URLs die by design, so run locally for a fresh one.)
 
 ## License
 
