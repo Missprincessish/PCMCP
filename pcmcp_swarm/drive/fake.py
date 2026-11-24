@@ -318,7 +318,7 @@ def seed_demo(fake: FakeDrive, n_files: int = 600) -> str:
         fake.add_file(name.format(i=i), places[i % len(places)], f"content-{i}".encode(), mime)
     # rule-bait files used by validator tests
     fake.add_file("synomize_world_v3.json", olds[1], b"synomize", "application/json")
-    fake.add_file("ASH notes.txt", olds[1], b"ash", "text/plain")
+    fake.add_file("PERSONALAI notes.txt", olds[1], b"personalai", "text/plain")
     syn = fake.add_folder("Synomize old export", olds[3])
     fake.add_file("tree_asset.glb", syn, b"glb", "model/gltf-binary")
     legal = fake.add_folder("LEGAL PROOF - DO NOT TOUCH", test)
