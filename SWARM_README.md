@@ -12,7 +12,7 @@ no AI, no randomness. Each bot has one job letter for life, and every action is
 
 | Part | macOS 27.2 (arm64), Python 3.15 | Windows | Linux |
 |---|---|---|---|
-| Bots, registry, plans, undo, crash-resume, doorbell, signed check-in (`selftest`) | ✅ 57/57 | not yet run | not yet run |
+| Bots, registry, plans, undo, crash-resume, doorbell, signed check-in (`selftest`) | ✅ 57/57 | not yet run | ✅ 57/57 (x86_64, Python 3.12, verified 2026-11-23 from a fresh download of the public repo) |
 | Gmail IMAP watcher | logic tested against a fake IMAP server only; **not yet run against real Gmail** | — | — |
 | Screenshot bot | code path tested; real capture **failed without the Screen Recording permission** (see below) | untested adapter | untested adapter |
 

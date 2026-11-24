@@ -19,7 +19,7 @@ PCMCP is two things in one repo:
 | iMessage text trigger → screensaver start | verified live (bounded launch, honest failure reporting) |
 | Text trigger commands: `status`, `live`, `inventory`, `task`, `browse`, `run` | implemented and unit-tested |
 | Trigger parser: a command quoted inside a normal sentence is never executed | 10/10 unit tests; line-anchored full-match parsing |
-| Windows / Linux adapters | written, not yet run |
+| Cross-platform selftest | 57/57 on macOS (arm64) and Linux, verified from a fresh public-repo download; Windows not yet run |
 
 ## The iMessage text trigger
 
