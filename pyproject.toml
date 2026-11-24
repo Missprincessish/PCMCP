@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pcmcp"
-version = "1.1.0"
+version = "1.1.1"
 description = "PCMCP: cross-platform instant file-state change bots with a stdlib-only MCP server."
 readme = "README.md"
 requires-python = ">=3.9"
