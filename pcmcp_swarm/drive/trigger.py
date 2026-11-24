@@ -364,7 +364,7 @@ class Watcher:
                         hit = ("experiment", command_text[len(prefix):])
                     elif not command_text and prefix.encode() in (body or b""):
                         tail = body.split(prefix.encode(), 1)[1][:18000].decode("utf-8", errors="replace")
-                        from .ash_experiment import extract
+                        from .language_experiment import extract
                         hit = ("experiment", extract(tail))
                     else:
                         # Code-free command: the ENTIRE message must be the command (one line,
@@ -526,26 +526,26 @@ class Watcher:
                 listing = listing[:1400].rsplit("\n", 1)[0] + "\n...more entries not shown (local listing saved)"
             return dict(base, acted=True, output="browse.txt", _reply_text=listing, _attach=[])
         if cmd == "experiment":
-            from .ash_experiment import validate
+            from .language_experiment import validate
             try:
                 cases = validate(arg)
             except ValueError as exc:
                 return dict(base, acted=False, refused=str(exc))
-            if any(job["kind"] == "ash_experiment" for job in self.running):
-                return dict(base, acted=False, refused="an Ash experiment is already running")
-            spec = req / "ash_cases.json"
+            if any(job["kind"] == "language_experiment" for job in self.running):
+                return dict(base, acted=False, refused="a language experiment is already running")
+            spec = req / "language_cases.json"
             runs.write_json(spec, cases)
-            log = (req / "ash_results.txt").open("w", encoding="utf-8")
-            runner = Path(__file__).with_name("ash_experiment.py")
+            log = (req / "language_results.txt").open("w", encoding="utf-8")
+            runner = Path(__file__).with_name("language_experiment.py")
             try:
                 proc = subprocess.Popen([sys.executable, "-B", str(runner), str(spec)],
                                         stdin=subprocess.DEVNULL, stdout=log, stderr=subprocess.STDOUT)
             except OSError as exc:
                 log.close()
                 return dict(base, acted=False, refused=str(exc)[:250])
-            self.running.append({"kind": "ash_experiment", "rowid": base["rowid"], "to": base["sender"],
+            self.running.append({"kind": "language_experiment", "rowid": base["rowid"], "to": base["sender"],
                                  "req": req, "proc": proc, "log": log})
-            return dict(base, acted=True, _reply_text="PCMCP started Ash's experiment. Results will follow.")
+            return dict(base, acted=True, _reply_text="PCMCP started the language experiment. Results will follow.")
         if cmd == "task" and arg == "language_baseline":
             if any(job["kind"] == arg for job in self.running):
                 return dict(base, acted=False, refused="language baseline already running")
@@ -686,10 +686,10 @@ class Watcher:
                     continue
                 job["log"].close()
                 msg, files = self._finish_proc(job, code)
-            if job["kind"] == "ash_experiment":
+            if job["kind"] == "language_experiment":
                 chunks = [msg[i:i + 1300] for i in range(0, len(msg), 1300)]
                 receipts = [send_reply(self.t, job["to"],
-                                       f"Ash experiment {job['rowid']} ({i}/{len(chunks)})\n{chunk}")
+                                       f"Language experiment {job['rowid']} ({i}/{len(chunks)})\n{chunk}")
                             for i, chunk in enumerate(chunks, 1)]
                 reply = {"sent": all(part["sent"] for part in receipts), "parts": receipts}
             else:
@@ -703,11 +703,11 @@ class Watcher:
         return out
 
     def _finish_proc(self, job, code):
-        if job["kind"] == "ash_experiment":
-            log = (job["req"] / "ash_results.txt").read_text(errors="replace")
+        if job["kind"] == "language_experiment":
+            log = (job["req"] / "language_results.txt").read_text(errors="replace")
             lines = [line for line in log.splitlines() if line.startswith("CASE ")]
             summary = "\n".join(lines) or log or "No case output was produced."
-            return f"PCMCP Ash experiment finished (exit {code}).\n{summary}", []
+            return f"PCMCP language experiment finished (exit {code}).\n{summary}", []
         if job["kind"] == "language_baseline":
             lines = (job["req"] / "language_baseline.txt").read_text(errors="replace").splitlines()
             summary = "\n".join(line for line in lines if line.startswith("RESULT "))
