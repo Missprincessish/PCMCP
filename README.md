@@ -55,6 +55,16 @@ Up to 100 bots: plain Python, no AI, no randomness. Every action is pre-approved
 - Code: [`pcmcp_swarm/`](pcmcp_swarm/) (Python standard library only, no `pip install`)
 - Selftest: `python3 -m pcmcp_swarm.selftest`
 
+## MCP server
+
+The swarm speaks Model Context Protocol, standard library only, no `pip install`:
+
+```bash
+python3 -m pcmcp_swarm mcp
+```
+
+Tools: `swarm_status`, `swarm_meter` (fleet health meter: per-bot verdict OK / WARN / STALLED / BROKEN with evidence and repair advice, so the client knows which arm of the swarm is broken), `swarm_plan_list`, `swarm_plan_show`, `swarm_scan` (proposes a plan, changes nothing), `swarm_execute` (dry-run by default), `swarm_undo` (restores), `swarm_approve` (refuses unless the owner sets `mcp.allow_approval: true` in the config), and `swarm_screenshot` (returns a PNG inline as MCP image content so a vision-capable client can see the screen; refuses unless `mcp.allow_screenshots: true`). Real execution additionally requires `mcp.allow_real_execution: true`. All gates default to false: out of the box an MCP client can look, propose and dry-run, never approve, destroy or photograph anything. A repaired bot returns to OK once its failed op is re-run and completed. Every call is logged to `logs/mcp.jsonl`. Also exposes the bot registry key as an MCP resource (`pcmcp://registry`), answers `prompts/list` and `logging/setLevel`, and speaks protocol versions 2024-11-05, 2025-03-26 and 2025-06-18. Conformance-tested against the documented client wire format: handshake, version fallback, notification silence, parse errors and every startup probe a real client sends.
+
 ## Built around Instinct
 
 PCMCP is built for the new texting agents. I use Instinct daily: it texts my Mac a command (over iMessage), the deterministic swarm does the work, and results come back to the chat, screenshot or file attached. The agent never gets a shell, never gets approve rights, and can only propose work for the owner to approve locally. The trigger parser is hardened so a command quoted inside a normal sentence is never executed, and reply delivery is verified against the Messages database instead of trusting AppleScript's word for it.

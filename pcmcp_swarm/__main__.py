@@ -265,6 +265,8 @@ def main(argv=None):
     s = sub.add_parser("pending", help="OWNER: list/approve pending screenshot requests")
     s.add_argument("action", choices=["list", "approve"]); s.add_argument("id", nargs="?"); s.set_defaults(fn=cmd_pending)
     s = sub.add_parser("registry", help="print the registry key"); s.set_defaults(fn=cmd_registry)
+    s = sub.add_parser("mcp", help="run the MCP server (stdio) for agent clients: propose-only until the owner enables config gates")
+    s.set_defaults(fn=lambda args: (_ for _ in ()).throw(SystemExit(_mcp_main())))
     from .drive import cli as drive_cli
     drive_cli.add_parser(sub)
     args = ap.parse_args(argv)
@@ -275,6 +277,11 @@ def main(argv=None):
         args.fn(args)
     except (FileNotFoundError, ValueError, RuntimeError, PermissionError, DriveError, ForbiddenOperation) as e:
         sys.exit(f"error: {e}")
+
+
+def _mcp_main():
+    from .mcp_server import serve
+    return serve()
 
 
 if __name__ == "__main__":
