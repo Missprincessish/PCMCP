@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "pcmcp"
 version = "1.1.0"
-description = "PCMCP: cross-platform instant file-state change bot swarm with a stdlib-only MCP server."
+description = "PCMCP: cross-platform instant file-state change bots with a stdlib-only MCP server."
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
 authors = [{ name = "Angela Wilkinson", email = "angie@synhumanitylabs.com" }]
-keywords = ["mcp", "model-context-protocol", "swarm", "automation", "mac"]
+keywords = ["mcp", "model-context-protocol", "automation", "mac"]
 classifiers = [
   "Intended Audience :: Developers",
   "Operating System :: MacOS",
@@ -25,6 +25,7 @@ Repository = "https://github.com/Missprincessish/PCMCP"
 Issues = "https://github.com/Missprincessish/PCMCP/issues"
 
 [project.scripts]
+pcmcp = "pcmcp_swarm.__main__:main"
 pcmcp-swarm = "pcmcp_swarm.__main__:main"
 
 [tool.setuptools.packages.find]

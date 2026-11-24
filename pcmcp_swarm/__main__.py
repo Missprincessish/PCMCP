@@ -234,7 +234,7 @@ def cmd_registry(args):
 
 
 def main(argv=None):
-    ap = argparse.ArgumentParser(prog="python3 -m pcmcp_swarm", description="PCMCP deterministic bot swarm")
+    ap = argparse.ArgumentParser(prog="python3 -m pcmcp_swarm", description="PCMCP deterministic bots")
     ap.add_argument("--config", help="config file (default $PCMCP_CONFIG or ~/.pcmcp/config.json)")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
