@@ -24,7 +24,7 @@ def run(entry):
 
 if __name__ == "__main__":
     entries = (
-        ("Cora", "SECORA", ("discover", "-s", "Tests", "-p", "test_language_composition.py")),
+        ("Composition", "language-composition", ("discover", "-s", "Tests", "-p", "test_language_composition.py")),
         ("Experiment", "experimental-ai", ("tests.test_language_lessons",)),
     )
     with ThreadPoolExecutor(max_workers=2) as executor:
