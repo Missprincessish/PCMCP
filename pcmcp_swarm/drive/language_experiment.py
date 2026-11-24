@@ -1,4 +1,10 @@
-"""Evaluate Instinct-authored language cases using an isolated Ash database."""
+"""Evaluate Instinct-authored language cases against an isolated experimental AI database.
+
+The AI package is private and not part of this repo. Point the experiment at a local
+install with PCMCP_EXPERIMENT_PKG (Python package), PCMCP_EXPERIMENT_ROOT (import path)
+and PCMCP_EXPERIMENT_STATE (mind database file).
+"""
+import importlib
 import json
 import math
 from pathlib import Path
@@ -7,6 +13,7 @@ import signal
 import sqlite3
 import sys
 from tempfile import TemporaryDirectory
+import os
 
 
 def validate(raw):
@@ -44,7 +51,8 @@ def validate_scene(scene):
 
 def observe_scene(scene):
     from dataclasses import replace
-    from ash.world import PerceptionBridge, World, situation_from_percepts
+    _w = importlib.import_module(os.environ.get("PCMCP_EXPERIMENT_PKG", "experimental_ai") + ".world")
+    PerceptionBridge, World, situation_from_percepts = _w.PerceptionBridge, _w.World, _w.situation_from_percepts
 
     world = World()
     shape = scene.get("shape", "sphere")
@@ -89,48 +97,49 @@ def normalize(text):
 
 
 def main(cases):
-    root = Path.home() / "Documents" / "SYNA_5"
-    sys.path.insert(0, str(root / "ASH-AI"))
-    from ash.memory.mind import AshMind
+    root = Path(os.environ.get("PCMCP_EXPERIMENT_ROOT", str(Path.home() / "Documents" / "experimental-ai")))
+    sys.path.insert(0, str(root))
+    _pkg = os.environ.get("PCMCP_EXPERIMENT_PKG", "experimental_ai")
+    Mind = importlib.import_module(_pkg + ".memory.mind").Mind
 
-    source = root / "ASH-AI-state" / "mind.db"
-    with TemporaryDirectory(prefix="pcmcp-ash-") as temp:
+    source = Path(os.environ.get("PCMCP_EXPERIMENT_STATE", str(root.parent / "experimental-ai-state" / "mind.db")))
+    with TemporaryDirectory(prefix="pcmcp-langexp-") as temp:
         snapshot = Path(temp) / "snapshot.db"
         with sqlite3.connect(source.as_uri() + "?mode=ro", uri=True) as live:
             with sqlite3.connect(snapshot) as copy:
                 live.backup(copy)
         for idx, case in enumerate(cases, 1):
             # Independent in-memory state for each case. Keep the source and snapshot untouched.
-            ash = AshMind(snapshot)
+            mind = Mind(snapshot)
             try:
                 context = case.get("context", "")
                 frames = None
                 if "scene" in case:
-                    from ash.perception.text import parse
+                    parse = importlib.import_module(_pkg + ".perception.text").parse
                     situation, frames = observe_scene(case["scene"])
                     question = parse(case["question"])
                     situation.question = question.question
                     situation.qword = question.qword
-                    answer = ash.pipeline().ask(
+                    answer = mind.pipeline().ask(
                         case["question"], situation=situation,
                         observed_motion=(case["scene"].get("shape", "sphere"), frames[-1].get("speed")),
                     )
                 else:
-                    answer = ash.ask(case["question"], context)
+                    answer = mind.ask(case["question"], context)
                 actual = " ".join(answer.text.split())
                 verdict = "exact match" if normalize(actual) == normalize(case["expected"]) else "review"
                 visibility = "" if frames is None else " | visibility " + "".join("V" if f["visible"] else "-" for f in frames)
                 if actual.startswith("Verified (calculation):"):
                     calculation, marker, limitation = actual.partition(" Missing information:")
                     display = (f"Missing information:{limitation} | {calculation}" if marker else
-                               f"Ash returned a calculation without a direct answer. | {actual}")
+                               f"The experimental AI returned a calculation without a direct answer. | {actual}")
                 else:
                     display = actual
                 print(f"CASE {idx}: {verdict}{visibility} | {display}", flush=True)
                 print(json.dumps({"case": idx, "answer": actual, "expected": case["expected"],
                                   "abstained": answer.abstained, "frames": frames}, ensure_ascii=False), flush=True)
             finally:
-                ash.close()
+                mind.close()
 
 
 if __name__ == "__main__":
