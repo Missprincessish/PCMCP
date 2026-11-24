@@ -104,8 +104,8 @@ def sample_plan(inv, fmap, move_folder_name=None):
             dest = "Projects/Synomize"; tags[f["id"]] = ["synomize-3d"]
         elif "synomize" in name:
             dest = "Projects/Synomize"; tags[f["id"]] = ["synomize"]
-        elif re.search(r"(^|[^a-z])ash([^a-z]|$)", name):
-            dest = "Projects/SynASH Intelligence"; tags[f["id"]] = ["ash"]
+        elif re.search(r"(^|[^a-z])personalai([^a-z]|$)", name):
+            dest = "Projects/Personal AI"; tags[f["id"]] = ["personalai"]
         elif ext in THREE_D:
             dest = "3D assets/Models"
         else:
@@ -250,8 +250,8 @@ def run(tmp: Path, a):
     def pac(p):
         p["placements"][R].remove(victim)
         p["placements"].setdefault("PAC", []).append(victim)
-        p["tags"][victim] = ["ash"]
-    bad("d", pac, "NEVER_MOVE:ash-never-into-pac")
+        p["tags"][victim] = ["personalai"]
+    bad("d", pac, "NEVER_MOVE:personalai-never-into-pac")
     if fake:
         glb = next(i["id"] for i in inv["items"] if i["name"] == "tree_asset.glb")
 
