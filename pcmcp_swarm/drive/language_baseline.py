@@ -25,7 +25,7 @@ def run(entry):
 if __name__ == "__main__":
     entries = (
         ("Cora", "SECORA", ("discover", "-s", "Tests", "-p", "test_language_composition.py")),
-        ("Ash", "SYNA_5/ASH-AI", ("tests.test_language_lessons",)),
+        ("Experiment", "experimental-ai", ("tests.test_language_lessons",)),
     )
     with ThreadPoolExecutor(max_workers=2) as executor:
         results = list(executor.map(run, entries))
