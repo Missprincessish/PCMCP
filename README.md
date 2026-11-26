@@ -126,3 +126,4 @@ MIT
 ---
 
 Built by **Angie Wilkinson** at **SynHumanity Labs** • [synomize.io](https://synomize.io)
+<!-- mcp-name: io.github.Missprincessish/pcmcp -->
