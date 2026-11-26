@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pcmcp"
+version = "1.2.0"
+description = "PCMCP: cross-platform instant file-state change bots with a stdlib-only MCP server."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "Angela Wilkinson", email = "angie@synhumanitylabs.com" }]
+keywords = ["mcp", "model-context-protocol", "mcp-server", "automation", "mac", "agents"]
+classifiers = [
+  "Intended Audience :: Developers",
+  "Operating System :: MacOS",
+  "Operating System :: POSIX",
+  "Topic :: Software Development :: Libraries",
+  "Programming Language :: Python :: 3",
+  "Topic :: System :: Systems Administration",
+]
+
+[project.urls]
+Homepage = "https://synomize.io"
+Repository = "https://github.com/Missprincessish/PCMCP"
+Issues = "https://github.com/Missprincessish/PCMCP/issues"
+
+[project.scripts]
+pcmcp = "pcmcp_swarm.__main__:main"
+pcmcp-swarm = "pcmcp_swarm.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["pcmcp_swarm*"]
