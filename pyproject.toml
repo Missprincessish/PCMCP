@@ -9,7 +9,7 @@ description = "PCMCP: cross-platform instant file-state change bots with a stdli
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
-authors = [{ name = "Angela Wilkinson", email = "angie@synhumanitylabs.com" }]
+authors = [{ name = "Angie Wilkinson", email = "angie@synhumanitylabs.com" }]
 keywords = ["mcp", "model-context-protocol", "mcp-server", "automation", "mac", "agents"]
 classifiers = [
   "Intended Audience :: Developers",
