@@ -30,6 +30,8 @@ PCMCP is a standard MCP server (stdio). Add it with the config format your clien
 
 Using `uvx` instead of an installed command: `"command": "uvx", "args": ["pcmcp", "mcp"]`.
 
+If your app says it can't find `pcmcp`, put the full path in `command` instead. Run `which pcmcp` (or `which uvx`) in a terminal to get it. Some apps don't see your terminal's PATH.
+
 ### Remote clients: Streamable HTTP
 
 For clients that connect to a URL instead of launching a command:
@@ -95,7 +97,7 @@ Up to 100 bots: plain Python, no AI, no randomness. File bots preview changes wi
 
 ## MCP server
 
-The swarm speaks Model Context Protocol, standard library only, no `pip install`:
+The swarm speaks Model Context Protocol, standard library only, no third-party dependencies:
 
 ```bash
 pcmcp mcp                          # same as: python3 -m pcmcp_swarm mcp
