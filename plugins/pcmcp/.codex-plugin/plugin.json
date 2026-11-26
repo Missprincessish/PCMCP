@@ -1,6 +1,6 @@
 {
   "name": "pcmcp",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "PCMCP local bridge plugin.",
   "author": {
     "name": "Missprincessish"
