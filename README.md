@@ -45,7 +45,7 @@ Safe by default: binds to 127.0.0.1 only, every request needs `Authorization: Be
 PCMCP is two things in one repo:
 
 1. **The original WebMCP cross-platform task handoff demo** (browser MCP tools hand a task capsule between machines).
-2. **PCMCP deterministic bots** — up to 100 deterministic, hash-logged, reversible file bots, plus an iMessage text trigger so a phone can ask a Mac for status, screenshots and more.
+2. **PCMCP deterministic bots** — up to 100 deterministic, hash-logged file bots with undo, plus an iMessage text trigger so a phone can ask a Mac for status, screenshots and more.
 
 ## What actually works (tested, no hand-waving)
 
@@ -66,7 +66,7 @@ The Mac reads the Messages database read-only. A text from an allowed sender can
 ```text
 PCMCP-<secret> status                live swarm status
 PCMCP-<secret> live                  listener health: uptime, poll rate, active jobs, last acted command + age, free disk
-PCMCP-<secret> screensaver           start the Mac screensaver (reversible action; verified launch only)
+PCMCP-<secret> screensaver           start the Mac screensaver (verified launch only)
 PCMCP-<secret> screenshot            screenshot of the screen, attached back as .png
 PCMCP-<secret> inventory drive        read-only Google Drive inventory (attached .txt listing)
 PCMCP-<secret> inventory icloud      look-only iCloud Drive listing (names, sizes, downloaded/cloud-only)
@@ -87,7 +87,7 @@ See the docstring of `pcmcp_swarm/drive/trigger.py` for the full safety model.
 
 ## Deterministic bot swarm
 
-Up to 100 bots: plain Python, no AI, no randomness. Every action is pre-approved by the owner, logged with SHA-256 hashes, and reversible (deletes and overwrites are staged, never destroyed). Doorbell + HMAC-signed instruction batches: the orchestrator can propose; only the local owner CLI can approve.
+Up to 100 bots: plain Python, no AI, no randomness. File bots preview changes with a dry run. Deletes and overwrites are staged first, and undo can restore them. Doorbell + HMAC-signed instruction batches: the orchestrator can propose; only the local owner CLI can approve.
 
 - Docs: [SWARM_README.md](SWARM_README.md) • Data format: [SPEC.md](SPEC.md) • Task ledger: [SWARM_TASKS.md](SWARM_TASKS.md) • Drive plan format: [DRIVE_PLAN_SPEC.md](DRIVE_PLAN_SPEC.md)
 - Code: [`pcmcp_swarm/`](pcmcp_swarm/) (Python standard library only, no dependencies)
@@ -105,7 +105,7 @@ Tools: `swarm_status`, `swarm_meter` (fleet health meter: per-bot verdict OK / W
 
 ## Built around Instinct
 
-PCMCP is built for the new texting agents. I use Instinct daily: it texts my Mac a command (over iMessage), the deterministic swarm does the work, and results come back to the chat, screenshot or file attached. The agent never gets a shell, never gets approve rights, and can only propose work for the owner to approve locally. The trigger parser is hardened so a command quoted inside a normal sentence is never executed, and reply delivery is verified against the Messages database instead of trusting AppleScript's word for it.
+PCMCP is built for the new texting agents. I use Instinct daily: it texts my Mac a command (over iMessage), the deterministic swarm does the work, and results come back to the chat, screenshot or file attached. The text trigger and MCP server expose fixed commands and tools. MCP approval, real execution and screenshots are separate owner-controlled settings, all off by default. The trigger parser is hardened so a command quoted inside a normal sentence is never executed, and reply delivery is verified against the Messages database instead of trusting AppleScript's word for it.
 
 ## WebMCP handoff demo (the original PCMCP)
 
@@ -123,4 +123,4 @@ MIT
 
 ---
 
-Built by **Angela Wilkinson** at **SynHumanity Labs** • [synomize.io](https://synomize.io)
+Built by **Angie Wilkinson** at **SynHumanity Labs** • [synomize.io](https://synomize.io)
