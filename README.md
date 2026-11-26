@@ -1,4 +1,4 @@
-<img width="512" height="279" alt="PCMCP logo" src="https://github.com/user-attachments/assets/712ad48c-ddf6-422b-ab1f-d522f1aa8c2c" />
+<p align="center"><img src="assets/pcmcp-3.gif" width="320" alt="PCMCP animated logo: two keycaps and a curved PCMCP smile"></p>
 
 # PCMCP
 
