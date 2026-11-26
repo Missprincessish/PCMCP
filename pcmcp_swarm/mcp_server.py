@@ -326,7 +326,7 @@ def handle(req: dict) -> dict | None:
             "capabilities": {"tools": {"listChanged": False},
                              "logging": {},
                              "resources": {"listChanged": False}},
-            "serverInfo": {"name": "pcmcp", "version": "1.2.0"},
+            "serverInfo": {"name": "pcmcp", "version": "1.2.1"},
         }}
     if method == "ping":
         return {"jsonrpc": "2.0", "id": rid, "result": {}}
