@@ -6,6 +6,12 @@
 
 [![PyPI](https://img.shields.io/pypi/v/pcmcp)](https://pypi.org/project/pcmcp/) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
+## Demo video
+
+Watch PCMCP find a file on another machine and send the winning code back. Deterministic bots, every step receipted:
+
+![PCMCP demo video](assets/pcmcp-demo.mov)
+
 ## Quick start
 
 ```bash
