@@ -10,7 +10,7 @@
 
 Watch PCMCP find a file on another machine and send the winning code back. Deterministic bots, every step receipted:
 
-[PCMCP demo video](https://github.com/Missprincessish/PCMCP/blob/main/assets/pcmcp-demo.mp4)
+[![PCMCP demo video](assets/pcmcp-demo-thumb.png)](https://github.com/Missprincessish/PCMCP/blob/main/assets/pcmcp-demo.mp4)
 ## Quick start
 
 ```bash
