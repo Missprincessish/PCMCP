@@ -132,5 +132,5 @@ MIT
 
 ---
 
-Built by **Angie Wilkinson** at **SynHumanity Labs** • [synomize.io](https://synomize.io)
+Built by **Angie Wilkinson** at **SynHumanity Labs**. Explore Angie's other projects: **SynAtoms** and [**Synomize**](https://synomize.io). **SynAtoms is closed-source.** For work, licensing, or investment inquiries: angie@synhumanitylabs.com.
 <!-- mcp-name: io.github.Missprincessish/pcmcp -->
