@@ -2,6 +2,8 @@
 
 # PCMCP
 
+<!-- mcp-name: io.github.missprincessish/pcmcp -->
+
 **Start on Mac. Continue anywhere. Send it back. Nothing gets lost.**
 
 [![PyPI](https://img.shields.io/pypi/v/pcmcp)](https://pypi.org/project/pcmcp/) [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
