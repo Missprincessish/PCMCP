@@ -2,7 +2,7 @@
 
 # PCMCP
 
-<!-- mcp-name: io.github.missprincessish/pcmcp -->
+<!-- mcp-name: io.github.Missprincessish/pcmcp -->
 
 **Start on Mac. Continue anywhere. Send it back. Nothing gets lost.**
 
