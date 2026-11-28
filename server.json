@@ -1,0 +1,38 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.missprincessish/pcmcp",
+  "title": "PCMCP",
+  "description": "Owner-gated, reversible file automation and cross-platform task handoff via MCP.",
+  "repository": {
+    "url": "https://github.com/Missprincessish/PCMCP",
+    "source": "github"
+  },
+  "version": "1.2.4",
+  "icons": [
+    {
+      "src": "https://raw.githubusercontent.com/Missprincessish/PCMCP/main/assets/icon.png",
+      "mimeType": "image/png",
+      "sizes": [
+        "1024x1024"
+      ]
+    }
+  ],
+  "packages": [
+    {
+      "registryType": "pypi",
+      "identifier": "pcmcp",
+      "version": "1.2.4",
+      "transport": {
+        "type": "stdio"
+      },
+      "packageArguments": [
+        {
+          "type": "positional",
+          "value": "mcp",
+          "valueHint": "mcp",
+          "isRequired": true
+        }
+      ]
+    }
+  ]
+}
